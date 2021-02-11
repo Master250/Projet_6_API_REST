@@ -1,7 +1,7 @@
 const Sauce = require('../models/Sauce');
 const schemalike = require('../models/Like');
 const fs = require('fs');
-
+// les midleware
 exports.createSauce = (req,res,next) =>{
   const sauceObject = JSON.parse(req.body.sauce);
   console.log(req.body);
