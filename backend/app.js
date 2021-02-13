@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const sauceRoutes = require('./routes/sauce');
+const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
 
-mongoose.connect('mongodb+srv://Master250:utQ6oxjoINCGBQLK@cluster0.4hcci.mongodb.net/<dbname>?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Master25:CFsUnPNIgXxDsonG@cluster0.wrl7m.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))

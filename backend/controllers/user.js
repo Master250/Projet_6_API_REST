@@ -36,7 +36,7 @@ exports.login = (req,res,next) =>{
                         )
                         
                     });
-                    console.log(token);
+    
                 })
                 .catch(error => res.status(500).json({ error}));// Problème de connexion
             
