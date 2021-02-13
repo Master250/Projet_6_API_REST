@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
+//const cors = require('cors');
 const path = require('path');
 const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://Master25:CFsUnPNIgXxDsonG@cluster0.wrl7m.mongodb
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
-app.use(cors());
+//app.use(cors());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
