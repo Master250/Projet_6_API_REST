@@ -4,7 +4,6 @@ const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png',
-    'image/ico': 'ico'
 };
 
 const storage = multer.diskStorage({
