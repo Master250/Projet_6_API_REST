@@ -82,7 +82,7 @@ exports.likeSauces = (req, res, next) => {
       Sauce.updateOne({ _id: thisSauceId },
         {$push: { usersLiked: userId }, $inc: { likes: +1 },}
       )
-      .then(() => res.status(200).json({ message: 'Vous aimez cette sauce. (^-^) ' }))
+      .then(() => res.status(200).json({ message: 'Vous aimez cette sauce. ' }))
       .catch((error) => res.status(400).json({ error }))
 
 
@@ -93,7 +93,7 @@ exports.likeSauces = (req, res, next) => {
       Sauce.updateOne({ _id: thisSauceId },
         {$push: { usersDisliked: userId }, $inc: { dislikes: +1 },}
       )
-      .then(() => res.status(200).json({ message: 'Vous n\'aimez pas cette sauce. :-( ' }))
+      .then(() => res.status(200).json({ message: 'Vous n\'aimez pas cette sauce. ' }))
       .catch((error) => res.status(400).json({ error }))
     }
 
