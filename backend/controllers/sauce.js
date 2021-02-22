@@ -71,7 +71,7 @@ exports.likeSauces = (req, res, next) => {
 
   const likeStatus = req.body.like;
   const userId = req.body.userId;
-  const thisSauceId = req.params.id;
+  const sauceId = req.params.id;
   Sauce.findOne({ _id: req.params.id }).then(sauce => {
 
     console.log(sauce.usersLiked);
@@ -79,7 +79,7 @@ exports.likeSauces = (req, res, next) => {
 
     if (likeStatus === 1) {
       console.log(userId+' aime cette sauce.');
-      Sauce.updateOne({ _id: thisSauceId },
+      Sauce.updateOne({ _id: sauceId },
         {$push: { usersLiked: userId }, $inc: { likes: +1 },}
       )
       .then(() => res.status(200).json({ message: 'Vous aimez cette sauce. ' }))
@@ -90,7 +90,7 @@ exports.likeSauces = (req, res, next) => {
 
     if (likeStatus === -1) {
       console.log('Vous n\'aimez pas cette sauce.');
-      Sauce.updateOne({ _id: thisSauceId },
+      Sauce.updateOne({ _id: sauceId },
         {$push: { usersDisliked: userId }, $inc: { dislikes: +1 },}
       )
       .then(() => res.status(200).json({ message: 'Vous n\'aimez pas cette sauce. ' }))
@@ -102,7 +102,7 @@ exports.likeSauces = (req, res, next) => {
       const ind = sauce.usersLiked.indexOf(userId);
       if (ind > -1) {
         sauce.usersLiked.slice(ind, 1);
-        Sauce.updateOne({ _id: thisSauceId },
+        Sauce.updateOne({ _id: sauceId },
           {$push: { usersLiked: {$each: [ ], $slice: ind} }, $inc: { likes: -1 },}
 
         )
@@ -113,7 +113,7 @@ exports.likeSauces = (req, res, next) => {
         const indDisliked = sauce.usersDisliked.indexOf(userId);
         sauce.usersDisliked.slice(indDisliked, 1);
 
-        Sauce.updateOne({ _id: thisSauceId },
+        Sauce.updateOne({ _id: sauceId },
           {$push: { usersDisliked: {$each: [ ], $slice: indDisliked} }, $inc: { dislikes: -1 },}
 
         )
