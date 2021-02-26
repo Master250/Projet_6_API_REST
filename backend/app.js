@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const helmet = require("helmet");
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -7,14 +9,15 @@ const path = require('path');
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-
-mongoose.connect('mongodb+srv://Master25:CFsUnPNIgXxDsonG@cluster0.wrl7m.mongodb.net/<dbname>?retryWrites=true&w=majority',
+console.log(process.env.DB_USER, process.env.DB_PASSWORD);
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.wrl7m.mongodb.net/<dbname>?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+app.use(helmet());
 app.use(cors());
 
 app.use((req, res, next) => {
