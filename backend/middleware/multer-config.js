@@ -1,11 +1,14 @@
+// import des packages
 const multer = require('multer');
 
+// Définition des Types MIME acceptés
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png',
 };
 
+// Gestion des fichiers entrants dans le dossier images
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')

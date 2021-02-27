@@ -1,4 +1,7 @@
+// import des packages
 const mongoose = require('mongoose');
+
+// schéma de données d'une sauce
 const sauceSchema = mongoose.Schema({
     name: { type: String, required: true },
     manufacturer: { type: String, required: true },
@@ -13,7 +16,5 @@ const sauceSchema = mongoose.Schema({
     usersDisliked: [{type: String, required: false, default: []}]
     
 });
-
-
 
 module.exports = mongoose.model('Sauce', sauceSchema);

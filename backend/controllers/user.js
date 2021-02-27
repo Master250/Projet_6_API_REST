@@ -1,8 +1,14 @@
+// Activation du mode STRICT de Javascript
 "use strict";
+
+// import des packages
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const MaskData = require('maskdata');
+
+
+// Fonction de Signup
 
 exports.signup = (req, res, next) =>{
     
@@ -19,6 +25,9 @@ exports.signup = (req, res, next) =>{
         })
         .catch(error => res.status(500).json({ error}));
 };
+
+
+// Fonction de Login
 
 exports.login = (req,res,next) =>{
     User.findOne({ email: MaskData.maskEmail2(req.body.email) })

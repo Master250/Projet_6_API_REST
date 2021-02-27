@@ -6,8 +6,6 @@ const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
 
-
-
 // ******************* Créer une sauce *********************
 
 exports.createSauce = (req,res,next) =>{
@@ -26,6 +24,8 @@ exports.createSauce = (req,res,next) =>{
       
 };
 
+// Fonction de modification d'une sauce
+
 exports.modifySauce = (req, res, next) => {
         
   const sauceObject = req.file ?
@@ -40,6 +40,8 @@ exports.modifySauce = (req, res, next) => {
   
 };
 
+// Fonction de suppression d'une sauce
+
 exports.deleteSauce = (req, res, next) =>{
   Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
@@ -53,11 +55,16 @@ exports.deleteSauce = (req, res, next) =>{
   
       .catch(error => res.status(404).json({ error }));
 };
+
+// Fonction de récupération d'une sauce
+
 exports.getOneSauce = (req, res, next) =>{
   Sauce.findOne({ _id: req.params.id})
   .then(sauce => res.status(200).json(sauce))
   .catch(error => res.status(404).json({error:error}));
 };
+
+// Fonction de récupération de la liste des Sauces
 
 exports.getAllSauces = (req,res, next) =>{
   Sauce.find()
@@ -67,6 +74,7 @@ exports.getAllSauces = (req,res, next) =>{
   );
 };
 
+// Fonction Like/Dislike
 exports.likeSauces = (req, res, next) => {
 
   const likeStatus = req.body.like;
