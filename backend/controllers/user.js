@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const MaskData = require('maskdata');
 
-
 // Fonction de Signup
 
 exports.signup = (req, res, next) =>{
