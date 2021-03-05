@@ -9,3 +9,5 @@ const likeSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Like', likeSchema);
+
+

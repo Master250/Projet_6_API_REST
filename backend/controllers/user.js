@@ -5,7 +5,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const MaskData = require('maskdata');
 
 // Fonction de Signup
 
@@ -14,7 +13,7 @@ exports.signup = (req, res, next) =>{
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
-                email: MaskData.maskEmail2(req.body.email),
+                email:maskEmail(req.body.email),
                 password: hash
             });
             
@@ -29,7 +28,7 @@ exports.signup = (req, res, next) =>{
 // Fonction de Login
 
 exports.login = (req,res,next) =>{
-    User.findOne({ email: MaskData.maskEmail2(req.body.email) })
+    User.findOne({ email:maskEmail(req.body.email) })
         .then(user => {
             if(!user){
                 return res.status(401).json({ error: 'Utilisateur non trouvé !'});
@@ -55,3 +54,30 @@ exports.login = (req,res,next) =>{
         })
         .catch(error => res.status(500).json({ error}));// Problème de connexion
 };
+
+function  maskEmail(email, reveal=false){
+    let newEmail = "";
+    let arobase = false;
+    let valeurCodee;
+    let valeurCodeeMasquee;
+    let valeurReencodeeMasquee;
+    for(let i=0, size=email.length; i<size; i++){
+        if (email[i]=== "@"){
+            newEmail +="@";
+            arobase = true;
+            continue;
+        }
+        if (arobase && email[i] === "."){
+            newEmail +=".";
+            continue;
+        }
+        valeurCodee = email.charCodeAt(i);
+        if (reveal) valeurCodeeMasquee = valeurCodee-1;
+        else valeurCodeeMasquee = valeurCodee +1;
+        valeurReencodeeMasquee = String.fromCharCode(valeurCodeeMasquee);
+        newEmail += valeurReencodeeMasquee;
+    }
+    return newEmail;
+}
+
+   
