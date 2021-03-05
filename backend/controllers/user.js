@@ -79,5 +79,3 @@ function  maskEmail(email, reveal=false){
     }
     return newEmail;
 }
-
-   
