@@ -7,7 +7,16 @@ const fs = require('fs');
 
 
 // ******************* Créer une sauce *********************
+/*
+Dans cette fonction createSauces :
 
+Nous commençons par utiliser la fonction parse de JSON pour récupérer les données envoyées par l'utilisateur depuis le "frontend" pour construire un objet.
+Nous supprimons l'ID reçu, car celui-ci sera créer automatiquement par MongoDB
+Ensuite, nous appelons le constructeur Sauces qui se trouve dans les modèles pour construire l'objet en récupérant tous les paramètres qui sont présent dans la constante sauce
+Finalement, nous utilisons la fonction save pour enregistrer l'objet dans la collection Sauces de la base de données MongoDB.
+
+En retournant des erreurs avec le code d'erreur en cas d'échec.
+*/
 exports.createSauce = (req,res,next) =>{
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -25,7 +34,18 @@ exports.createSauce = (req,res,next) =>{
 };
 
 // Fonction de modification d'une sauce
+/*
+Dans cette fonction modifySauces :
 
+Nous commençons par récupérer les données envoyées par l'utilisateur depuis le "frontend" pour modifier un objet.
+Nous récupérons le fichier image (si une image est envoyé) pour qu'elle contienne le chemin avec le nom de fichier typé (Ex : img.jpg)
+
+Nous mettons a jour les données reçu, avec une image ou sans.
+
+Enfin nous mettons à jour l'objet de la base de données via la propriété save de mongoose.
+
+Le tout en renvoyant une réponse de réussite en cas de succès, et des erreurs avec le code d'erreur en cas d'échec ;
+*/
 exports.modifySauce = (req, res, next) => {
         
   const sauceObject = req.file ?
@@ -41,7 +61,18 @@ exports.modifySauce = (req, res, next) => {
 };
 
 // Fonction de suppression d'une sauce
+/*
+Dans cette fonction deleteSauces :
 
+Nous appelons la fonction findOne pour récupérer l'ID unique de la sauce créé par l'utilisateur,
+
+Dans notre bloc then, nous récupérons le fichier image dans une constante "filename" depuis l'URL "splitté",
+Ensuite avec le package fs, nous allons chercher le ficher immage correspondant dans l'arbre du serveur et nous le supprimons
+
+Enfin, via deleteOne nous supprimons l'objet dans la base de données.
+
+Le tout en renvoyant une réponse de réussite en cas de succès, et des erreurs avec le code d'erreur en cas d'échec ;
+*/
 exports.deleteSauce = (req, res, next) =>{
   Sauce.findOne({ _id: req.params.id })
       .then(sauce => {
@@ -57,7 +88,12 @@ exports.deleteSauce = (req, res, next) =>{
 };
 
 // Fonction de récupération d'une sauce
+/*
+Dans cette fonction getOneSauces :
 
+Nous récupérons via findOne la sauce correspondant à l'ID liée dans la base de données.
+En retournant des erreurs avec le code d'erreur en cas d'échec.
+*/
 exports.getOneSauce = (req, res, next) =>{
   Sauce.findOne({ _id: req.params.id})
   .then(sauce => res.status(200).json(sauce))
@@ -75,6 +111,19 @@ exports.getAllSauces = (req,res, next) =>{
 };
 
 // Fonction Like/Dislike
+/*Dans un premier temps, on récupère les réponses userId & like du frontend.
+Ensuite on récupère le params.id pour trouver la sauce concérné par le Like/Dislike via findOne.
+Si l'utilisateur annule un choix, alors on supprime son userID du tableau correspondant & on ajoute ou supprime 1 au compteur correspondant
+puis on modifie le message qui sera affiché lors de l'appel de save.
+
+Si l'utilisateur aime une sauce et que le tableau usersLiked est vide, on créer une entrée, sinon on ajoute celui-ci au tableau,
+on incrémente le compteur correspondant (likes), puis on modifie le message qui sera affiché lors de l'appel de save.
+
+Si l'utilisateur n'aime pas une sauce, et que le tableau usersDisliked est vide, on créer une entrée, sinon on ajoute celui-ci au tableau,
+on incrémente le compteur correspondant(dislikes), puis on modifie le message qui sera affiché lors de l'appel de save.
+
+En retournant des erreurs avec le code d'erreur en cas d'échec.
+*/
 exports.likeSauces = (req, res, next) => {
 
   const likeStatus = req.body.like;
